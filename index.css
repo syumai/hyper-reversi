@@ -28,7 +28,7 @@
   background-color: #fff;
 }
 
-.cell.empty {
+.cell.selectable {
   cursor: pointer;
 }
 
@@ -37,7 +37,7 @@
   border: #eee;
 }
 
-.cell.empty:hover {
+.cell.selectable:hover {
   background-color: #090;
 }
 

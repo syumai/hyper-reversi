@@ -47,19 +47,22 @@ const DIRECTIONS = {
   UPPER_RIGHT: 'UPPER_RIGHT',
   UPPER_LEFT: 'UPPER_LEFT',
   LOWER_RIGHT: 'LOWER_RIGHT',
-  LOWER_LEFT: 'LOWER_RIGHT',
+  LOWER_LEFT: 'LOWER_LEFT',
 };
 
 const DIRECTIONS_DELTA = {
+  [DIRECTIONS.UPPER_LEFT]: { x: -1, y: -1 },
   [DIRECTIONS.UP]: { x: 0, y: -1 },
-  [DIRECTIONS.DOWN]: { x: 0, y: 1 },
+  [DIRECTIONS.UPPER_RIGHT]: { x: 1, y: -1 },
   [DIRECTIONS.LEFT]: { x: -1, y: 0 },
   [DIRECTIONS.RIGHT]: { x: 1, y: 0 },
-  [DIRECTIONS.UPPER_LEFT]: { x: -1, y: -1 },
-  [DIRECTIONS.UPPER_RIGHT]: { x: 1, y: -1 },
   [DIRECTIONS.LOWER_LEFT]: { x: -1, y: 1 },
+  [DIRECTIONS.DOWN]: { x: 0, y: 1 },
   [DIRECTIONS.LOWER_RIGHT]: { x: 1, y: 1 },
 };
+
+const deltaList = Object.values(DIRECTIONS_DELTA);
+console.log(deltaList);
 
 const checkSelectable = ({ position, board, isBlackTurn }) => {
   const { x, y } = position;
@@ -71,6 +74,18 @@ const checkSelectable = ({ position, board, isBlackTurn }) => {
   const targetStatus = isBlackTurn ? STATUSES.BLACK : STATUSES.WHITE;
 };
 
+const existsAgainstAroundCell = ({ board, cell, isBlackTurn }) => {
+  const { position: { x, y } } = cell;
+  const againstStatus = isBlackTurn ? STATUSES.WHITE : STATUSES.BLACK;
+  // find cells around specified cell and filter null
+  const aroundCells = deltaList
+    .map(({ x: _x, y: _y }) =>
+      findCell({ board, position: { x: x + _x, y: y + _y } })
+    )
+    .filter(_cell => _cell);
+  return aroundCells.some(({ status }) => status === againstStatus);
+};
+
 const state = {
   isBlackTurn: true,
   board,
@@ -80,7 +95,27 @@ const actions = {
   select: ({ position }) => ({ board, isBlackTurn }) => {
     const newBoard = cloneBoard(board);
     const selectedCell = findCell({ board: newBoard, position });
+
+    if (!selectedCell.selectable) {
+      return;
+    }
+
     selectedCell.status = isBlackTurn ? STATUSES.BLACK : STATUSES.WHITE;
+    selectedCell.selectable = false;
+
+    const emptyCells = getCells(newBoard).filter(
+      ({ status }) => status === STATUSES.EMPTY
+    );
+    emptyCells.forEach(cell => {
+      const selectable = existsAgainstAroundCell({
+        board: newBoard,
+        cell,
+        isBlackTurn: !isBlackTurn,
+      });
+      cell.selectable = selectable;
+    });
+    console.log(newBoard);
+
     return {
       board: newBoard,
       isBlackTurn: !isBlackTurn,
@@ -97,8 +132,8 @@ const view = (state, actions) =>
         h(
           'div',
           { class: 'row' },
-          row.map(({ status, position }) =>
-            Cell({ status, position, onselect: actions.select })
+          row.map(({ status, position, selectable }) =>
+            Cell({ status, position, selectable, onselect: actions.select })
           )
         )
       )
