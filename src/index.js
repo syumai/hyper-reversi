@@ -1,24 +1,43 @@
 const { h, app } = hyperapp;
-const { range, cloneDeep, flatten } = _;
 import { ROW_NUMBERS, COLUMN_NUMBERS, STATUSES } from './constants.js';
 import Cell from './components/Cell.js';
 
 const initializeBoard = (rowNumbers, columnNumbers) => {
-  const board = range(ROW_NUMBERS).map((_n, y) =>
-    range(COLUMN_NUMBERS).map((_n, x) => ({
+  const board = Array.from({ length: ROW_NUMBERS }).map((_n, y) =>
+    Array.from({ length: COLUMN_NUMBERS }).map((_n, x) => ({
       status: STATUSES.EMPTY,
       position: { x, y },
       selectable: true,
     }))
   );
-  board[rowNumbers / 2][columnNumbers / 2 - 1].status = STATUSES.BLACK;
-  board[rowNumbers / 2 - 1][columnNumbers / 2].status = STATUSES.BLACK;
-  board[rowNumbers / 2][columnNumbers / 2].status = STATUSES.WHITE;
-  board[rowNumbers / 2 - 1][columnNumbers / 2 - 1].status = STATUSES.WHITE;
+
+  const blackCells = [
+    board[rowNumbers / 2][columnNumbers / 2 - 1],
+    board[rowNumbers / 2 - 1][columnNumbers / 2],
+  ];
+  const whiteCells = [
+    board[rowNumbers / 2][columnNumbers / 2],
+    board[rowNumbers / 2 - 1][columnNumbers / 2 - 1],
+  ];
+
+  blackCells.forEach(cell => (cell.status = STATUSES.BLACK));
+  whiteCells.forEach(cell => (cell.status = STATUSES.WHITE));
+  [...blackCells, ...whiteCells].forEach(cell => (cell.selectable = false));
+
   return board;
 };
 
+const cloneBoard = board => board.map(row => row.map(cell => ({ ...cell })));
+
 const board = initializeBoard(ROW_NUMBERS, COLUMN_NUMBERS);
+
+const getCells = board =>
+  board.reduce((cells, column) => [...cells, ...column]);
+
+const findCell = ({ board, position: { x, y } }) =>
+  getCells(board).find(
+    ({ position: { x: _x, y: _y } }) => x === _x && y === _y
+  );
 
 const DIRECTIONS = {
   UP: 'UP',
@@ -42,13 +61,6 @@ const DIRECTIONS_DELTA = {
   [DIRECTIONS.LOWER_RIGHT]: { x: 1, y: 1 },
 };
 
-const getCells = board => flatten(board);
-
-const findCell = ({ board, position: { x, y } }) =>
-  getCells(board).find(
-    ({ position: { x: _x, y: _y } }) => x === _x && y === _y
-  );
-
 const checkSelectable = ({ position, board, isBlackTurn }) => {
   const { x, y } = position;
   const cell = findCell({ board, position });
@@ -66,7 +78,7 @@ const state = {
 
 const actions = {
   select: ({ position }) => ({ board, isBlackTurn }) => {
-    const newBoard = cloneDeep(board);
+    const newBoard = cloneBoard(board);
     const selectedCell = findCell({ board: newBoard, position });
     selectedCell.status = isBlackTurn ? STATUSES.BLACK : STATUSES.WHITE;
     return {
