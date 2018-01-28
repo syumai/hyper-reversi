@@ -45,12 +45,6 @@ const checkSelectable = ({ board, position, isBlackTurn }) => {
   const targetStatus = isBlackTurn ? STATUSES.BLACK : STATUSES.WHITE;
 };
 
-const existsAgainstAroundCell = ({ board, cell, isBlackTurn }) => {
-  const currentStatus = isBlackTurn ? STATUSES.BLACK : STATUSES.WHITE;
-  const aroundCells = getAroundCells({ board, position });
-  return aroundCells.some(({ status }) => status === currentStatus);
-};
-
 const getReversibleCells = ({
   board,
   cell,
@@ -190,8 +184,6 @@ const actions = {
     actions.updateSelectableCells();
   },
 };
-
-const gameStatusMessage = ({ board, isBlackTurn, gameFinished }) => {};
 
 const view = ({ board, isBlackTurn, gameFinished }, actions) => {
   return h('div', { oncreate: actions.updateSelectableCells }, [
