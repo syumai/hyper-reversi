@@ -219,6 +219,18 @@ const view = ({ board, isBlackTurn, gameFinished }, actions) => {
       gameFinished,
       onclickRestart: actions.initialize,
     }),
+    h(
+      'div',
+      { class: 'info' },
+      h(
+        'a',
+        {
+          class: 'link github',
+          href: 'https://github.com/syumai/hyper-reversi/',
+        },
+        'GitHub'
+      )
+    ),
   ]);
 };
 
