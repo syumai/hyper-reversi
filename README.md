@@ -4,15 +4,15 @@ Reversi game implemented in Hyperapp
 
 ## Demo
 
-https://syumai.github.io/hyper-reversi
+https://syumai.github.io/hyper-reversi/
 
 (Supporting Chrome only)
 
 ## Features
 
-[x] Playing game
-[x] Restarting game
-[ ] NPC
+- [x] Playing game
+- [x] Restarting game
+- [ ] NPC
 
 ## Author
 
