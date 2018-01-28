@@ -5,12 +5,18 @@ const GameStatus = ({ board, isBlackTurn, gameFinished, onclickRestart }) => {
   let gameStatus;
   if (gameFinished) {
     const { black, white } = countUpCells(board);
-    const winner = black > white ? 'Black' : 'White';
+    const draw = black === white;
+    let message;
+    if (draw) {
+      message = 'Draw';
+    } else {
+      message = `${black > white ? 'Black' : 'White'} won!`;
+    }
     gameStatus = [
       h(
         'div',
         { class: 'message' },
-        `${winner} won! (Black: ${black}, White: ${white})`
+        `${message} (Black: ${black}, White: ${white})`
       ),
       h(
         'button',
