@@ -1,10 +1,18 @@
-# Hyperothello
+# hyper-reversi
 
-Othello game implemented in Hyperapp
+Reversi game implemented in Hyperapp
 
-## Status
+## Demo
 
-WIP
+https://syumai.github.io/hyper-reversi
+
+(Supporting Chrome only)
+
+## Features
+
+[x] Playing game
+[x] Restarting game
+[ ] NPC
 
 ## Author
 
