@@ -3,15 +3,14 @@
   "version": "0.1.0",
   "main": "src/index.js",
   "scripts": {
-    "start": "parcel index.html --out-dir tmp",
-    "build": "parcel build index.html --out-dir docs --public-url ./"
+    "start": "parcel src/index.html --out-dir tmp",
+    "build": "parcel build src/index.html --public-url ./"
   },
   "repository": "https://github.com/syumai/hyper-reversi",
   "author": "syumai <syumai@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "hyperapp": "^1.0.2",
-    "lodash": "^4.17.4"
+    "hyperapp": "^1.0.2"
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

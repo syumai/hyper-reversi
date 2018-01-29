@@ -4,9 +4,7 @@ Reversi game implemented in Hyperapp
 
 ## Demo
 
-https://syumai.github.io/hyper-reversi/
-
-(Supporting Chrome only)
+https://syumai.github.io/hyper-reversi/dist/
 
 ## Features
 
