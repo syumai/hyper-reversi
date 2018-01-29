@@ -1,19 +1,14 @@
-const { h, app } = hyperapp;
+import { h, app } from 'hyperapp';
 import {
   ROW_NUMBERS,
   COLUMN_NUMBERS,
   STATUSES,
   DIRECTIONS,
   DIRECTIONS_DELTA,
-} from './constants.js';
-import {
-  initializeBoard,
-  cloneBoard,
-  getCells,
-  findCell,
-} from './board-utils.js';
-import Cell from './components/Cell.js';
-import GameStatus from './components/GameStatus.js';
+} from './constants';
+import { initializeBoard, cloneBoard, getCells, findCell } from './board-utils';
+import Cell from './components/Cell';
+import GameStatus from './components/GameStatus';
 
 const directionList = Object.values(DIRECTIONS);
 

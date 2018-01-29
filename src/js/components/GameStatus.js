@@ -1,5 +1,5 @@
-const { h } = hyperapp;
-import { countUpCells } from '../board-utils.js';
+import { h } from 'hyperapp';
+import { countUpCells } from '../board-utils';
 
 const GameStatus = ({ board, isBlackTurn, gameFinished, onclickRestart }) => {
   let gameStatus;

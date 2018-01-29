@@ -1,4 +1,4 @@
-import { STATUSES } from './constants.js';
+import { STATUSES } from './constants';
 
 export const initializeBoard = (rowNumbers, columnNumbers) => {
   const board = Array.from({ length: rowNumbers }).map((_n, y) =>
