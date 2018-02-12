@@ -10,7 +10,7 @@
   "author": "syumai <syumai@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "hyperapp": "^1.0.2"
+    "hyperapp": "^1.1.2"
   },
   "devDependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
