@@ -30,16 +30,6 @@ const getAroundCells = ({ board, position: { x, y } }) =>
     )
     .filter(_cell => _cell);
 
-const checkSelectable = ({ board, position, isBlackTurn }) => {
-  const { x, y } = position;
-  const cell = findCell({ board, position });
-
-  if (currentStatus !== STATUSES.EMPTY) {
-    return false;
-  }
-  const targetStatus = isBlackTurn ? STATUSES.BLACK : STATUSES.WHITE;
-};
-
 const getReversibleCells = ({
   board,
   cell,
